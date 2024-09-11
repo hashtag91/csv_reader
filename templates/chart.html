@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    /* Container that keeps the aspect ratio */
+    .iframe-container {
+        position: relative;
+        width: 100%;
+        /* Set the desired aspect ratio (16:9 in this case) */
+        padding-bottom: 56.25%; 
+        height: 0;
+        overflow: hidden;
+    }
+
+    /* Responsive iframe */
+    .iframe-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+</style>
+<div class="container">
+    <h2 class="text-center">
+        Charts generator
+    </h2>
+    <form action="{{url_for('plotchart',filename=filename)}}", method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-2 fw-bold">
+                <label class="form-label" for="select">Columns Select</label>
+                <select name="select" id="select" class="form-select" aria-label="Default select example">
+                    <option value="single" selected>Single</option>
+                    <option value="multiple">Multiple</option>
+                </select>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-2 fw-bold">
+                <label class="form-label" for="operation">Operation</label>
+                <select name="operation" id="select" class="form-select" aria-label="Default select example">
+                    <option value="count" selected>Count</option>
+                    <option value="sum">Sum</option>
+                </select>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-2 fw-bold">
+                <label class="form-label" for="operation">Axis-X</label>
+                <select name="axis-x" id="select" class="form-select" aria-label="Default select example">
+                    {% for d in non_num_col %}
+                        <option value="{{d}}">{{d}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-auto col-md-6 col-lg-2 fw-bold">
+                <label class="form-label" for="operation">Axis-Y</label>
+                <select name="axis-y" id="select" class="form-select" aria-label="Default select example">
+                    {% for c in num_col %}
+                        <option value="{{c}}">{{c}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-2 fw-bold">
+                <label for="title" class="form-label fw-bold">Title</label>
+                <input type="text" name="title" id="title" class="form-control">
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-2 fw-bold">
+                <label for="title" class="form-label fw-bold"></label>
+                <button type="submit" class="btn btn-primary form-control">Generate</button>
+            </div>
+        </div>
+    </form>
+    {% if generation %}
+        <div class="iframe-container">
+            <iframe src="{{url_for('static',filename='pages/plot.html')}}" width="400" height="400" allowfullscreen></iframe>
+        </div>
+    {% endif %}
+    
+</div>
+{% endblock %}

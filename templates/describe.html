@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block content %}
+    <style>
+        .tbl-container{
+            max-width: fit-content;
+            max-height: fit-content;
+        }
+        .tbl-fixed{
+            overflow-x: scroll;
+            overflow-y: scroll;
+            height: fit-content;
+            max-width: 250vh;
+            max-height: 100vh;
+            margin-top: 40px;
+        }
+        table{
+            max-width: max-content;
+            border-collapse: separate;
+        }
+        table th{
+            position: sticky;
+            top: 0px;
+            background-color: rgb(221, 166, 84);
+            text-align: center;
+        }
+        table td{
+            text-align: center;
+        }
+    </style>
+    <div class="container" style="border: 1px solid #363232;">
+        <div class="row">
+            <h2 class="text-center fw-bold">
+                Describe
+            </h2>
+        </div>
+        <div class="container tbl-container">
+            <div class="row tbl-fixed">
+                <table class=" table table-striped table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            {% for column in data[0].keys() %}
+                                <th>{{column}}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in data %}
+                            <tr>
+                                {% for d in row.values() %}
+                                    <td>{{d}}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="container align-item-center">
+            <p class="fs-5"><span class="fw-bold fs-4">Describe:</span> generates a statistical summary of numeric columns in a data table.</p>
+            <p class="fs-5">Here are the key statistics provided by the function for numeric columns:</p>
+            <p><span class="fw-bold fs-5">1. Count (<span class="fw-normal">count</span>):</span><br>
+                <ul>
+                    <li><span class="fw-bold">Description: </span>Total number of non-zero (or non-missing) values ​​in the column.</li>
+                    <li><span class="fw-bold">Utility: </span>Shows how much valid data is present in each column.</li>
+                </ul>
+            </p>
+            <p><span class="fw-bold fs-5">2. Mean (<span class="fw-normal">mean</span>):</span><br>
+                <ul>
+                    <li><span class="fw-bold">Description: </span>Arithmetic mean of the values.</li>
+                    <li><span class="fw-bold">Utility: </span>Measure of central tendency, indicating the average value of the data.</li>
+                </ul>
+            </p>
+            <p><span class="fw-bold fs-5">3. Standard Deviation (<span class="fw-normal">std</span>):</span><br>
+                <ul>
+                    <li><span class="fw-bold">Description: </span>Standard deviation, which measures the dispersion or variability of values ​​relative to the mean.</li>
+                    <li><span class="fw-bold">Utility: </span>Indicates how spread out the values ​​are around the mean.</li>
+                </ul>
+            </p>
+            <p><span class="fw-bold fs-5">4. Minimum (<span class="fw-normal">min</span>):</span><br>
+                <ul>
+                    <li><span class="fw-bold">Description: </span>The smallest value in the column.</li>
+                    <li><span class="fw-bold">Utility: </span>Provides an indication of the extent or range of the data.</li>
+                </ul>
+            </p>
+            <p><span class="fw-bold fs-5">5. Quartile 25% (<span class="fw-normal">25%</span>):</span><br>
+                <ul>
+                    <li><span class="fw-bold">Description: </span>First quartile, also called lower quartile or Q1.</li>
+                    <li><span class="fw-bold">Utility: </span>25% of the data is less than this value. Used to understand the distribution of the data.</li>
+                </ul>
+            </p>
+            <p><span class="fw-bold fs-5">6. Quartile 50% (<span class="fw-normal">50%</span>):</span><br>
+                <ul>
+                    <li><span class="fw-bold">Description: </span>Second quartile or median.</li>
+                    <li><span class="fw-bold">Utility: </span>This is the midpoint of the data, 50% of the values ​​are lower and 50% are higher. Measure of central tendency robust to outliers.</li>
+                </ul>
+            </p>
+            <p><span class="fw-bold fs-5">7. Quartile 75% (<span class="fw-normal">75%</span>):</span><br>
+                <ul>
+                    <li><span class="fw-bold">Description: </span>Third quartile, also called upper quartile or Q3.</li>
+                    <li><span class="fw-bold">Utility: </span>75% of the data is below this value. Measures the distribution of higher values.</li>
+                </ul>
+            </p>
+            <p><span class="fw-bold fs-5">8. Maximum (<span class="fw-normal">max</span>):</span><br>
+                <ul>
+                    <li><span class="fw-bold">Description: </span>The largest value in the column.</li>
+                    <li><span class="fw-bold">Utility: </span>Provides an idea of ​​the highest value in the data set.</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+body{
+    display: block;
+    align-items: center;
+}
+form{
+    background-color: coral;
+    padding: 3%;
+    width: 30%;
+    align-content: center;
+    color: azure;
+    border-radius: 2%;
+}

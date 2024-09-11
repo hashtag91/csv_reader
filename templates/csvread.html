@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .tbl-container{
+        max-width: fit-content;
+        max-height: fit-content;
+    }
+    .tbl-fixed{
+        overflow-x: scroll;
+        overflow-y: scroll;
+        height: fit-content;
+        max-width: 250vh;
+        max-height: 100vh;
+        margin-top: 40px;
+    }
+    table{
+        max-width: max-content;
+        border-collapse: separate;
+    }
+    table th{
+        position: sticky;
+        top: 0px;
+        background-color: rgb(221, 166, 84);
+        color: white;
+        text-align: center;
+    }
+    table td{
+        text-align: center;
+        border: 1px solid #ccc;
+    }
+</style>
+
+<div class="container-fluid gx-3 my-3">
+    <h2 class="text-center fw-bold">
+        Data Frame
+    </h2>
+    <div class="container tbl-container">
+        <div class="row tbl-fixed">
+            <table class="table-striped table-condensed table-hover ">
+                <thead>
+                    <tr>
+                        {%for column in data[0].keys()%}
+                            <th>{{column}}</th>
+                        {%endfor%}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                        <tr>
+                            {% for value in row.values() %}
+                                <td>
+                                    {{value}}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <nav aria-label="Page navigation exemple">
+        <ul class="pagination col-sm-12">
+            <li class="page-item">
+                <a href="{{ url_for('display',filename=filename,page=1) }}" class="page-link">
+                    <img src="{{url_for('static',filename='img/first.svg')}}" alt="" width="15" height="15">
+                </a>
+            </li>
+            
+            {% if page > 1 %}
+                <li class="page-item">
+                    <a href="{{ url_for('display',filename=filename,page=page-1) }}" class="page-link">
+                        <img src="{{url_for('static',filename='img/previous.svg')}}" alt="" width="15" height="15">
+                    </a>
+                </li>
+            {%else%}
+                <li class="page-item disabled">
+                    <a href="" class="page-link">
+                        <img src="{{url_for('static',filename='img/previous.svg')}}" alt="" width="15" height="15">
+                    </a>
+                </li>
+            {% endif %}
+            {% if page < 5%}
+                {%for i in range(6)%}
+                    {%if i != 0%}
+                        {%if i == page%}
+                            <li class="page-item active">
+                                <a href="/display/filename/?page={{i}}" class="page-link">{{i}}</a>
+                            </li>
+                        {%else%}
+                            <li class="page-item">
+                                <a href="{{ url_for('display',filename=filename,page=i) }}" class="page-link">{{i}}</a>
+                            </li>
+                        {%endif%}
+                    {%endif%}
+                {%endfor%}
+            {% elif page >= 5 and page < page_number-3%}
+                {% for p in range(page-3,page+4)%}
+                    {%if p == page%}
+                        <li class="page-item active">
+                            <a href="/display/filename/?page={{p}}" class="page-link">{{p}}</a>
+                        </li>
+                    {%else%}
+                        <li class="page-item">
+                            <a href="{{ url_for('display',filename=filename,page=p) }}" class="page-link">{{p}}</a>
+                        </li>
+                    {%endif%}
+                {% endfor %}
+            {% else %}
+                {% for p in range(page_number-5,page_number+1) %}
+                    {%if p == page%}
+                        <li class="page-item active">
+                            <a href="/display/filename/?page={{p}}" class="page-link">{{p}}</a>
+                        </li>
+                    {%else%}
+                        <li class="page-item">
+                            <a href="{{ url_for('display',filename=filename,page=p) }}" class="page-link">{{p}}</a>
+                        </li>
+                    {%endif%}
+                {% endfor %}
+            {% endif %}
+            {% if page < page_number %}
+                <li class="page-item">
+                    <a href="{{ url_for('display',filename=filename,page=page+1) }}" class="page-link">
+                        <img src="{{url_for('static',filename='img/next.svg')}}" alt="" width="15" height="15">
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="{{ url_for('display',filename=filename,page=page_number) }}" class="page-link">
+                        <img src="{{url_for('static',filename='img/last.svg')}}" alt="" width="15" height="15">
+                    </a>
+                </li>
+            {%else%}
+                <li class="page-item disabled">
+                    <a href="" class="page-link">
+                        <img src="{{url_for('static',filename='img/next.svg')}}" alt="" width="15" height="15">
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}
